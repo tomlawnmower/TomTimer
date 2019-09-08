@@ -1190,7 +1190,7 @@ public class mainGui extends javax.swing.JFrame
     private void bringToFrontMac()
     {
         // try make this "true,true" for desired behavior on mac
-        taskbar.requestUserAttention(true, false);
+        taskbar.requestUserAttention(true, true);
     }
     
     //restore window if it has been minimized to system tray
