@@ -20,6 +20,7 @@ import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.SystemTray;
+import java.awt.Taskbar;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
@@ -48,6 +49,8 @@ import javax.swing.JPanel;
  */
 public class mainGui extends javax.swing.JFrame
 {
+    private static String OS = System.getProperty("os.name").toLowerCase();
+    
     ArrayList<TimerEntry> timerList;
     JPanel timerPanel;
     Image sysTrayIcon;
@@ -56,6 +59,7 @@ public class mainGui extends javax.swing.JFrame
     int timerIdToEdit; // user will edit timer settings, apply the changes to this ID
     boolean globalTimerAutoRestartMode = false; //false = timer only runs once, true = timer restarts immediately after triggering
     File customSound = null; //user may choose a custom sound file for a specific timer this is a temporary helper
+    final Taskbar taskbar = Taskbar.getTaskbar(); // for Mac
     
     /** Creates new form mainGui */
     public mainGui()
@@ -86,7 +90,15 @@ public class mainGui extends javax.swing.JFrame
         //system tray
         URL imageURL = mainGui.class.getResource("/resources/clock.png");
         Image image = Toolkit.getDefaultToolkit().getImage(imageURL);
-        setIconImage(image);
+        if (isMac()) 
+        {
+            taskbar.setIconImage(image);
+        }
+        else 
+        {
+            setIconImage(image);    
+        }
+        
         if (SystemTray.isSupported())
         {
             icon = new TrayIcon(image);
@@ -1167,9 +1179,20 @@ public class mainGui extends javax.swing.JFrame
 
     public void bringToFront()
     {
+        if (isMac()) 
+        {
+            bringToFrontMac();
+            return;
+        }
         toFront();
     }
 
+    private void bringToFrontMac()
+    {
+        // try make this "true,true" for desired behavior on mac
+        taskbar.requestUserAttention(true, false);
+    }
+    
     //restore window if it has been minimized to system tray
     public void restoreWindow()
     {
@@ -1202,6 +1225,11 @@ public class mainGui extends javax.swing.JFrame
         inputField.selectAll();
     }
     
+    public static boolean isMac()
+    {
+        return (OS.indexOf("mac") >= 0);
+    }
+
     public void myBringToFront() {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
