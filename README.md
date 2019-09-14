@@ -1,5 +1,5 @@
 # TomTimer
-Basic Timer, a Java Swing application.
+A Timer program. Tested on Windows and Mac. A Java Swing application.
 
 ## Adding timers
 Enter a time and optional message, for example:
@@ -17,7 +17,7 @@ Right click on any timer's text to customize the sound for that individual timer
 Use the "Timer Options" menu to toggle "auto restart mode". When set to "on", all timers will restart when they are triggered. (So you can create a timer that triggers every 5 minutes).
 Right click on any timer's text to customize the restart mode for that individual timer.
 
-
+## Building from source
 Uses Netbeans IDE (unfortunately)
 Built on Netbeans 8.1 a long time ago.
 Built latest version on Apache Netbeans and AdoptOpenJDK11.
