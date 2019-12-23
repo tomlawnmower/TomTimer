@@ -218,7 +218,6 @@ public class mainGui extends javax.swing.JFrame
         timerSettingsDialog.setAlwaysOnTop(true);
         timerSettingsDialog.setLocationByPlatform(true);
         timerSettingsDialog.setMinimumSize(new java.awt.Dimension(289, 350));
-        timerSettingsDialog.setPreferredSize(new java.awt.Dimension(289, 350));
 
         jLabel1.setText("Timer Auto Restart:");
 
@@ -346,6 +345,10 @@ public class mainGui extends javax.swing.JFrame
         setLocationByPlatform(true);
         addWindowListener(new java.awt.event.WindowAdapter()
         {
+            public void windowActivated(java.awt.event.WindowEvent evt)
+            {
+                formWindowActivated(evt);
+            }
             public void windowClosed(java.awt.event.WindowEvent evt)
             {
                 formWindowClosed(evt);
@@ -654,6 +657,12 @@ public class mainGui extends javax.swing.JFrame
         // User enters a timer note and presses enter key
         saveTimerEdits();
     }//GEN-LAST:event_timerNoteTextFieldActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt)//GEN-FIRST:event_formWindowActivated
+    {//GEN-HEADEREND:event_formWindowActivated
+        taskbar.setIconBadge(null); // Hide the red badge (mac)
+        
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -1190,6 +1199,7 @@ public class mainGui extends javax.swing.JFrame
     private void bringToFrontMac()
     {
         // try make this "true,true" for desired behavior on mac
+        taskbar.setIconBadge("1");
         taskbar.requestUserAttention(true, true);
     }
     
@@ -1202,9 +1212,9 @@ public class mainGui extends javax.swing.JFrame
         isMinimized = false;
         mainGui.this.setVisible(true);
         mainGui.this.setExtendedState(mainGui.NORMAL);
-        SystemTray.getSystemTray().remove(icon);
-    }
-    
+            SystemTray.getSystemTray().remove(icon);
+        }
+        
     // move main gui into bottom right corner
     private void setMainGuiPosition()
     {
